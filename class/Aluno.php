@@ -66,6 +66,27 @@ class Aluno {
         }
     }
 
+    public function paginar($inicio, $total_registros) {
+        try {
+            $this->con = new Conectar();
+            $sql = "SELECT * FROM aluno LIMIT $inicio,$total_registros";
+            $executar = $this->con->prepare($sql);
+            return $executar->execute() == 1 ? $executar->fetchAll() : false;
+        } catch (PDOException $e) {
+            echo "Erro de bd " . $e->getMessage();
+        }
+    }
+
+    public function contar() {
+        try {
+            $this->con = new Conectar();
+            $sql = "SELECT * FROM view_contar_aluno";
+            $executar = $this->con->prepare($sql);
+            return $executar->execute() == 1 ? $executar->fetchColumn() : 0;
+        } catch (PDOException $e) {
+            echo "Erro de bd " . $e->getMessage();
+        }
+    }
 
     public function crud($opcao) {
         try {
@@ -97,6 +118,11 @@ class Aluno {
     }
 
 //fim do crud
+
+    public function enviarArquivos() {
+        $this->ct = new Controles();
+        return $this->ct->enviarArquivo($this->temp_foto, $this->caminho . $this->foto, "Foto aluno");
+    }
 
 }
 
