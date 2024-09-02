@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Tempo de geração: 02-Maio-2024 às 19:25
+-- Tempo de geração: 02-Set-2024 às 17:01
 -- Versão do servidor: 5.7.36
--- versão do PHP: 8.1.3
+-- versão do PHP: 8.0.16
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -25,7 +25,7 @@ DELIMITER $$
 --
 -- Procedimentos
 --
-CREATE DEFINER=`root`@`localhost` PROCEDURE `crud_aluno` (IN `var_id` INT, `var_nome` VARCHAR(50), `var_email` VARCHAR(50), `opcao` INT)   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `crud_aluno` (IN `var_id` INT, IN `var_nome` VARCHAR(50), IN `var_email` VARCHAR(50), IN `opcao` INT)   BEGIN
    	IF(EXISTS(SELECT id FROM aluno WHERE id = var_id)) THEN
     	IF(opcao = 1) THEN
         	UPDATE aluno SET nome = var_nome, email = var_email WHERE id = var_id;
@@ -108,18 +108,19 @@ DELIMITER ;
 CREATE TABLE `aluno` (
   `id` int(11) NOT NULL,
   `nome` varchar(50) DEFAULT NULL,
-  `email` varchar(50) DEFAULT NULL
+  `email` varchar(50) DEFAULT NULL,
+  `foto` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Extraindo dados da tabela `aluno`
 --
 
-INSERT INTO `aluno` (`id`, `nome`, `email`) VALUES
-(1, 'Marcio', 'teste@teste.com'),
-(2, 'Jorge', 'teste@itu.com'),
-(3, 'Maria', 'itu@teste.com'),
-(4, 'gfgdsgf', 'teste@teste.com');
+INSERT INTO `aluno` (`id`, `nome`, `email`, `foto`) VALUES
+(1, 'Marcio', 'teste@teste.com', NULL),
+(2, 'Jorge', 'teste@itu.com', NULL),
+(3, 'Maria', 'itu@teste.com', NULL),
+(4, 'gfgdsgf', 'teste@teste.com', NULL);
 
 -- --------------------------------------------------------
 
@@ -232,6 +233,16 @@ INSERT INTO `usuario` (`id`, `email`, `senha`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estrutura stand-in para vista `view_contar_aluno`
+-- (Veja abaixo para a view atual)
+--
+CREATE TABLE `view_contar_aluno` (
+`resultado` bigint(21)
+);
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura stand-in para vista `view_equipe_aluno`
 -- (Veja abaixo para a view atual)
 --
@@ -251,6 +262,15 @@ CREATE TABLE `view_produto` (
 ,`Nome produto` varchar(50)
 ,`Nome categoria` varchar(50)
 );
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para vista `view_contar_aluno`
+--
+DROP TABLE IF EXISTS `view_contar_aluno`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `view_contar_aluno`  AS SELECT count(0) AS `resultado` FROM `aluno``aluno`  ;
 
 -- --------------------------------------------------------
 
