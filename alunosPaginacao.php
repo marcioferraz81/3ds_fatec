@@ -19,7 +19,7 @@
         $inicio = $pc - 1;
         $inicio = $inicio * $total_registros;
 
-        $todos_registros = $al->contar()[0];
+        $todos_registros = $al->contar();
 
         $total_paginas = $todos_registros / $total_registros;
 
